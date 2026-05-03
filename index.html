@@ -2,18 +2,269 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>Fakkai Marketplace</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>fakkai.com | ตลาดกลางฝากขายปลอดภัย</title>
+
 <style>
-body { font-family: sans-serif; padding:20px; }
-.grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(250px,1fr)); gap:15px; }
-.card { border:1px solid #ddd; padding:15px; border-radius:10px; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f7fb;
+  color: #10213f;
+}
+
+header {
+  background: white;
+  padding: 18px 7%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e5eaf3;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.logo {
+  font-size: 30px;
+  font-weight: bold;
+  color: #145bdc;
+}
+
+nav a {
+  margin-left: 18px;
+  text-decoration: none;
+  color: #10213f;
+  font-weight: bold;
+}
+
+.btn {
+  background: #145bdc;
+  color: white !important;
+  padding: 12px 20px;
+  border-radius: 12px;
+}
+
+.hero {
+  padding: 60px 7%;
+  background: linear-gradient(180deg, #ffffff, #eaf3ff);
+}
+
+.hero h1 {
+  font-size: 54px;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.hero span {
+  color: #145bdc;
+}
+
+.hero p {
+  font-size: 18px;
+  color: #52657f;
+  max-width: 620px;
+  line-height: 1.8;
+}
+
+.search-area {
+  padding: 24px 7%;
+  background: white;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 14px;
+  border-bottom: 1px solid #e5eaf3;
+}
+
+.search-area input,
+.search-area select {
+  padding: 14px;
+  border: 1px solid #cbd7ea;
+  border-radius: 12px;
+  font-size: 15px;
+}
+
+.section {
+  padding: 34px 7%;
+}
+
+.section h2 {
+  margin-bottom: 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 22px;
+}
+
+.card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 14px 35px rgba(15, 35, 75, 0.08);
+  border: 1px solid #e2e8f0;
+}
+
+.image-box {
+  height: 170px;
+  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 54px;
+}
+
+.card-body {
+  padding: 18px;
+}
+
+.badge {
+  display: inline-block;
+  background: #e8f2ff;
+  color: #145bdc;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.card h3 {
+  margin: 6px 0 10px;
+  font-size: 18px;
+}
+
+.price {
+  color: #0b48bd;
+  font-size: 22px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.meta {
+  color: #64748b;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.desc {
+  color: #334155;
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 42px;
+}
+
+.contact {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.contact a {
+  text-align: center;
+  text-decoration: none;
+  padding: 11px;
+  border-radius: 12px;
+  font-weight: bold;
+}
+
+.call {
+  background: #145bdc;
+  color: white;
+}
+
+.line {
+  background: #10b981;
+  color: white;
+}
+
+.empty {
+  background: white;
+  padding: 30px;
+  border-radius: 18px;
+  text-align: center;
+  color: #64748b;
+}
+
+footer {
+  margin-top: 40px;
+  padding: 35px 7%;
+  background: #0f2347;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    gap: 14px;
+    align-items: flex-start;
+  }
+
+  .hero h1 {
+    font-size: 38px;
+  }
+
+  .search-area {
+    grid-template-columns: 1fr;
+  }
+}
 </style>
 </head>
+
 <body>
 
-<h2>สินค้าในระบบ</h2>
+<header>
+  <div>
+    <div class="logo">fakkai.com</div>
+    <small>ฝากขายปลอดภัย ซื้อขายมั่นใจ</small>
+  </div>
 
-<div class="grid" id="products"></div>
+  <nav>
+    <a href="./login.html">เข้าสู่ระบบ</a>
+    <a href="./sell.html" class="btn">ลงขายฟรี</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>ตลาดกลางฝากขาย<br><span>ที่เน้นความปลอดภัย</span></h1>
+  <p>
+    ซื้อขายบ้าน รถ พระเครื่อง ของมีค่า และสินค้าทั่วไป พร้อมระบบสมาชิกและประกาศจากผู้ขายจริง
+  </p>
+</section>
+
+<div class="search-area">
+  <input id="searchInput" placeholder="ค้นหาสินค้า เช่น iPhone, บ้าน, รถ">
+  
+  <select id="categoryFilter">
+    <option value="">ทุกหมวดหมู่</option>
+    <option value="มือถือ">มือถือ</option>
+    <option value="บ้าน">บ้าน</option>
+    <option value="รถ">รถ</option>
+    <option value="พระเครื่อง">พระเครื่อง</option>
+    <option value="ของมีค่า">ของมีค่า</option>
+  </select>
+
+  <select id="provinceFilter">
+    <option value="">ทุกจังหวัด</option>
+    <option value="กรุงเทพ">กรุงเทพ</option>
+    <option value="นนทบุรี">นนทบุรี</option>
+    <option value="ชลบุรี">ชลบุรี</option>
+    <option value="สงขลา">สงขลา</option>
+    <option value="เชียงใหม่">เชียงใหม่</option>
+  </select>
+</div>
+
+<section class="section">
+  <h2>ประกาศล่าสุด</h2>
+  <div class="grid" id="products"></div>
+</section>
+
+<footer>
+  <h3>fakkai.com</h3>
+  <p>ตลาดกลางฝากขายปลอดภัย ซื้อขายมั่นใจ ลดความเสี่ยงการโกง</p>
+</footer>
 
 <script type="module">
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
@@ -23,27 +274,104 @@ const supabase = createClient(
   'sb_publishable_YE1L_O6G2rzKFcOUlTfLGQ_eHfzAISh'
 )
 
-const { data, error } = await supabase
-  .from('products')
-  .select('*')
-  .order('created_at', { ascending: false })
+let allProducts = []
 
-const container = document.getElementById('products')
+const productsEl = document.getElementById('products')
+const searchInput = document.getElementById('searchInput')
+const categoryFilter = document.getElementById('categoryFilter')
+const provinceFilter = document.getElementById('provinceFilter')
 
-if (error) {
-  container.innerHTML = "โหลดข้อมูลไม่ได้"
-} else {
-  data.forEach(item => {
-    container.innerHTML += `
+async function loadProducts() {
+  const { data, error } = await supabase
+    .from('products')
+    .select('*')
+    .eq('status', 'active')
+    .order('created_at', { ascending: false })
+
+  if (error) {
+    productsEl.innerHTML = `<div class="empty">โหลดสินค้าไม่ได้: ${error.message}</div>`
+    return
+  }
+
+  allProducts = data || []
+  renderProducts(allProducts)
+}
+
+function renderProducts(items) {
+  productsEl.innerHTML = ''
+
+  if (!items.length) {
+    productsEl.innerHTML = `<div class="empty">ยังไม่มีสินค้าที่ตรงกับการค้นหา</div>`
+    return
+  }
+
+  items.forEach(item => {
+    const phone = item.phone || ''
+    const lineId = item.line_id || ''
+
+    productsEl.innerHTML += `
       <div class="card">
-        <h3>${item.title}</h3>
-        <p>💰 ${item.price} บาท</p>
-        <p>📍 ${item.province}</p>
-        <p>${item.description}</p>
+        <div class="image-box">${getIcon(item.category)}</div>
+        <div class="card-body">
+          <span class="badge">ยืนยันผู้ขายแล้ว</span>
+          <h3>${item.title || '-'}</h3>
+          <div class="price">฿${Number(item.price || 0).toLocaleString()}</div>
+          <div class="meta">หมวด: ${item.category || '-'}</div>
+          <div class="meta">📍 ${item.province || '-'}</div>
+          <div class="desc">${item.description || ''}</div>
+
+          <div class="contact">
+            ${
+              phone
+              ? `<a class="call" href="tel:${phone}">โทร</a>`
+              : `<a class="call" href="#">ไม่มีเบอร์</a>`
+            }
+
+            ${
+              lineId
+              ? `<a class="line" target="_blank" href="https://line.me/ti/p/~${lineId}">LINE</a>`
+              : `<a class="line" href="#">ไม่มี LINE</a>`
+            }
+          </div>
+        </div>
       </div>
     `
   })
 }
+
+function getIcon(category) {
+  if (category === 'มือถือ') return '📱'
+  if (category === 'บ้าน') return '🏠'
+  if (category === 'รถ') return '🚗'
+  if (category === 'พระเครื่อง') return '🧿'
+  if (category === 'ของมีค่า') return '💎'
+  return '📦'
+}
+
+function applyFilters() {
+  const keyword = searchInput.value.toLowerCase()
+  const category = categoryFilter.value
+  const province = provinceFilter.value
+
+  const filtered = allProducts.filter(item => {
+    const matchKeyword =
+      (item.title || '').toLowerCase().includes(keyword) ||
+      (item.description || '').toLowerCase().includes(keyword)
+
+    const matchCategory = category ? item.category === category : true
+    const matchProvince = province ? item.province === province : true
+
+    return matchKeyword && matchCategory && matchProvince
+  })
+
+  renderProducts(filtered)
+}
+
+searchInput.addEventListener('input', applyFilters)
+categoryFilter.addEventListener('change', applyFilters)
+provinceFilter.addEventListener('change', applyFilters)
+
+loadProducts()
 </script>
 
 </body>
