@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>ลงขายสินค้า</title>
+</head>
+<body>
+
+<h2>ลงขายสินค้า</h2>
+
+<input id="title" placeholder="ชื่อสินค้า"><br><br>
+<input id="price" placeholder="ราคา"><br><br>
+<input id="category" placeholder="หมวด"><br><br>
+<input id="province" placeholder="จังหวัด"><br><br>
+<textarea id="description" placeholder="รายละเอียด"></textarea><br><br>
+
+<button onclick="createProduct()">ลงขาย</button>
+
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+const supabase = createClient(
+  'https://ehuegkxeywnsthgdprch.supabase.co',
+  'ใส่ publishable key ของคุณ'
+)
+
+window.createProduct = async () => {
+  const user = (await supabase.auth.getUser()).data.user
+
+  if (!user) {
+    alert("กรุณา login ก่อน")
+    return
+  }
+
+  const { error } = await supabase.from('products').insert([
+    {
+      user_id: user.id,
+      title: document.getElementById('title').value,
+      price: document.getElementById('price').value,
+      category: document.getElementById('category').value,
+      province: document.getElementById('province').value,
+      description: document.getElementById('description').value
+    }
+  ])
+
+  if (error) {
+    alert(error.message)
+  } else {
+    alert("ลงขายสำเร็จ!")
+  }
+}
+</script>
+
+</body>
+</html>
