@@ -1,8 +1,7 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
-// ใส่ของคุณตรงนี้
 const supabaseUrl = 'https://ehuegkxeywnsthgdprch.supabase.co'
-const supabaseKey = 'ใส่ sb_publishable_ ของคุณตรงนี้'
+const supabaseKey = 'sb_publishable_YE1L_O6G2rzKFcOUlTfLGQ_eHfzAISh'
 
 const supabase = createClient(supabaseUrl, supabaseKey)
 document.addEventListener("DOMContentLoaded", () => {
