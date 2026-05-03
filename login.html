@@ -1,0 +1,25 @@
+const supabase = createClient(
+  'https://ehuegkxeywnsthgdprch.supabase.co',
+  'ใส่ publishable key ของคุณ'
+)
+
+window.login = async () => {
+  const email = document.getElementById('email').value
+  const password = document.getElementById('password').value
+
+  const { error } = await supabase.auth.signInWithPassword({
+    email,
+    password
+  })
+
+  if (error) {
+    alert(error.message)
+  } else {
+    alert("เข้าสู่ระบบสำเร็จ")
+    window.location.href = "/sell.html"
+  }
+}
+</script>
+
+</body>
+</html>
