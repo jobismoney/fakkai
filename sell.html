@@ -27,8 +27,16 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
 const supabase = createClient(
   'https://ehuegkxeywnsthgdprch.supabase.co',
-  'ใส่ publishable key ของคุณ'
+  'sb_publishable_YE1L_O6G2rzKFcOUlTfLGQ_eHfzAISh'
 )
+
+const { data: { user } } = await supabase.auth.getUser()
+
+if (!user) {
+  alert("ยังไม่ได้ login")
+  window.location.href = "/login.html"
+}
+
 
 window.createProduct = async () => {
   const user = (await supabase.auth.getUser()).data.user
