@@ -31,3 +31,4 @@ async function signUp(email, password) {
     alert("สมัครสำเร็จ! เช็คอีเมล")
   }
 }
+window.signUp = signUp;
