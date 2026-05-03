@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>รายละเอียดสินค้า</title>
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+const supabase = createClient(
+  'https://ehuegkxeywnsthgdprch.supabase.co',
+  'sb_publishable_YE1L_O6G2rzKFcOUlTfLGQ_eHfzAISh'
+)
+
+// ดึง id จาก URL
+const params = new URLSearchParams(window.location.search)
+const id = params.get('id')
+
+async function loadProduct() {
+  const { data, error } = await supabase
+    .from('products')
+    .select('*')
+    .eq('id', id)
+    .single()
+
+  console.log(data, error)
+
+  if (!data) {
+    document.body.innerHTML = "ไม่พบสินค้า"
+    return
+  }
+
+  document.body.innerHTML = `
+    <h1>${data.title}</h1>
+    <p>ราคา: ${data.price}</p>
+    <p>หมวด: ${data.category}</p>
+    <p>จังหวัด: ${data.province}</p>
+    <p>${data.description}</p>
+
+    <a href="tel:${data.phone}">📞 โทร</a><br>
+    <a href="https://line.me/ti/p/~${data.line_id}" target="_blank">💬 LINE</a><br><br>
+
+    <a href="/">← กลับหน้าแรก</a>
+  `
+}
+
+loadProduct()
+</script>
+</head>
+<body>
+กำลังโหลด...
+</body>
+</html>
