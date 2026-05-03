@@ -2,7 +2,166 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>รายละเอียดสินค้า</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>รายละเอียดสินค้า | fakkai.com</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap');
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Prompt', sans-serif;
+  background: #f4f7fb;
+  color: #10213f;
+}
+
+header {
+  background: white;
+  padding: 18px 7%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e5eaf3;
+}
+
+.logo {
+  font-size: 30px;
+  font-weight: 800;
+  color: #145bdc;
+  text-decoration: none;
+}
+
+.btn {
+  background: #145bdc;
+  color: white;
+  padding: 12px 22px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.container {
+  padding: 40px 7%;
+}
+
+.product-box {
+  background: white;
+  border-radius: 24px;
+  padding: 30px;
+  box-shadow: 0 14px 35px rgba(15, 35, 75, 0.08);
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 30px;
+}
+
+.image-box {
+  min-height: 360px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 110px;
+}
+
+.info h1 {
+  font-size: 34px;
+  margin: 0 0 16px;
+}
+
+.price {
+  color: #0b48bd;
+  font-size: 34px;
+  font-weight: 800;
+  margin: 16px 0;
+}
+
+.meta {
+  color: #64748b;
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.desc {
+  margin-top: 22px;
+  line-height: 1.8;
+  color: #334155;
+  background: #f8fafc;
+  padding: 18px;
+  border-radius: 16px;
+}
+
+.contact {
+  display: flex;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.contact a {
+  flex: 1;
+  text-align: center;
+  text-decoration: none;
+  padding: 14px;
+  border-radius: 14px;
+  font-weight: 800;
+}
+
+.call {
+  background: #145bdc;
+  color: white;
+}
+
+.line {
+  background: #10b981;
+  color: white;
+}
+
+.back {
+  display: inline-block;
+  margin-bottom: 20px;
+  text-decoration: none;
+  color: #145bdc;
+  font-weight: 700;
+}
+
+.empty {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  color: #64748b;
+}
+
+@media (max-width: 768px) {
+  .product-box {
+    grid-template-columns: 1fr;
+  }
+
+  .image-box {
+    min-height: 240px;
+  }
+
+  .contact {
+    flex-direction: column;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <a href="/" class="logo">fakkai.com</a>
+  <a href="./sell.html" class="btn">ลงขายฟรี</a>
+</header>
+
+<div class="container">
+  <a href="/" class="back">← กลับหน้าแรก</a>
+  <div id="productDetail" class="empty">กำลังโหลดสินค้า...</div>
+</div>
+
 <script type="module">
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
@@ -11,42 +170,81 @@ const supabase = createClient(
   'sb_publishable_YE1L_O6G2rzKFcOUlTfLGQ_eHfzAISh'
 )
 
-// ดึง id จาก URL
 const params = new URLSearchParams(window.location.search)
 const id = params.get('id')
+const productDetail = document.getElementById('productDetail')
 
 async function loadProduct() {
+  if (!id) {
+    productDetail.innerHTML = 'ไม่พบรหัสสินค้า'
+    return
+  }
+
   const { data, error } = await supabase
     .from('products')
     .select('*')
     .eq('id', id)
     .single()
 
-  console.log(data, error)
+  console.log('PRODUCT DETAIL:', data)
+  console.log('PRODUCT DETAIL ERROR:', error)
 
-  if (!data) {
-    document.body.innerHTML = "ไม่พบสินค้า"
+  if (error || !data) {
+    productDetail.innerHTML = 'ไม่พบสินค้า'
     return
   }
 
-  document.body.innerHTML = `
-    <h1>${data.title}</h1>
-    <p>ราคา: ${data.price}</p>
-    <p>หมวด: ${data.category}</p>
-    <p>จังหวัด: ${data.province}</p>
-    <p>${data.description}</p>
+  const phone = data.phone || ''
+  const lineId = data.line_id || ''
 
-    <a href="tel:${data.phone}">📞 โทร</a><br>
-    <a href="https://line.me/ti/p/~${data.line_id}" target="_blank">💬 LINE</a><br><br>
+  productDetail.className = 'product-box'
 
-    <a href="/">← กลับหน้าแรก</a>
+  productDetail.innerHTML = `
+    <div class="image-box">${getIcon(data.category)}</div>
+
+    <div class="info">
+      <h1>${data.title || '-'}</h1>
+
+      <div class="price">฿${Number(data.price || 0).toLocaleString()}</div>
+
+      <div class="meta">หมวดหมู่: ${data.category || '-'}</div>
+      <div class="meta">จังหวัด: ${data.province || '-'}</div>
+      <div class="meta">สถานะผู้ขาย: ยืนยันผู้ขายแล้ว</div>
+
+      <div class="desc">
+        <strong>รายละเอียดสินค้า</strong><br>
+        ${data.description || 'ไม่มีรายละเอียด'}
+      </div>
+
+      <div class="contact">
+        ${
+          phone
+          ? `<a class="call" href="tel:${phone}">📞 โทรหาผู้ขาย</a>`
+          : `<a class="call" href="javascript:void(0)">ไม่มีเบอร์โทร</a>`
+        }
+
+        ${
+          lineId
+          ? `<a class="line" target="_blank" href="https://line.me/ti/p/~${lineId}">💬 ติดต่อ LINE</a>`
+          : `<a class="line" href="javascript:void(0)">ไม่มี LINE</a>`
+        }
+      </div>
+    </div>
   `
+}
+
+function getIcon(category) {
+  if (category === 'มือถือ') return '📱'
+  if (category === 'บ้าน') return '🏠'
+  if (category === 'รถ') return '🚗'
+  if (category === 'พระเครื่อง') return '🧿'
+  if (category === 'ของมีค่า') return '💎'
+  if (category === 'ทั่วไป') return '📦'
+  return '📦'
 }
 
 loadProduct()
 </script>
-</head>
-<body>
-กำลังโหลด...
+
 </body>
 </html>
