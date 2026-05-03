@@ -6,65 +6,164 @@
 <title>ลงขายสินค้า | fakkai</title>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap');
+
+* { box-sizing: border-box; }
+
 body {
   margin: 0;
   font-family: 'Prompt', sans-serif;
   background: #f4f7fb;
+  color: #10213f;
+}
+
+.header {
+  background: white;
+  padding: 18px 7%;
+  border-bottom: 1px solid #e5eaf3;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  color: #145bdc;
+  font-size: 28px;
+  font-weight: 800;
+  text-decoration: none;
 }
 
 .container {
-  max-width: 500px;
+  max-width: 620px;
   margin: 40px auto;
   background: white;
-  padding: 30px;
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  padding: 34px;
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(15, 35, 75, 0.12);
 }
 
 h2 {
-  margin-bottom: 20px;
+  margin-top: 0;
+  font-size: 30px;
 }
 
-input, textarea {
+p {
+  color: #64748b;
+  line-height: 1.7;
+}
+
+label {
+  display: block;
+  margin: 16px 0 8px;
+  font-weight: 600;
+}
+
+input, textarea, select {
   width: 100%;
-  padding: 12px;
-  margin-bottom: 12px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
+  padding: 14px;
+  border: 1px solid #cbd7ea;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 15px;
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
 }
 
 button {
   width: 100%;
-  padding: 14px;
+  margin-top: 24px;
+  padding: 15px;
+  border: none;
+  border-radius: 14px;
   background: #145bdc;
   color: white;
-  border: none;
-  border-radius: 12px;
-  font-weight: bold;
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 16px;
   cursor: pointer;
 }
 
 button:hover {
   background: #0f4ac4;
 }
+
+button:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+.preview {
+  margin-top: 12px;
+  width: 100%;
+  height: 240px;
+  border-radius: 18px;
+  background: #eaf3ff;
+  display: none;
+  object-fit: cover;
+}
+
+.back {
+  text-decoration: none;
+  color: #145bdc;
+  font-weight: 700;
+}
+
+@media (max-width: 700px) {
+  .container {
+    margin: 20px;
+    padding: 24px;
+  }
+}
 </style>
 </head>
 
 <body>
 
+<div class="header">
+  <a href="/" class="logo">fakkai.com</a>
+  <a href="/" class="back">← กลับหน้าแรก</a>
+</div>
+
 <div class="container">
   <h2>ลงขายสินค้า</h2>
+  <p>กรอกข้อมูลให้ครบ เพื่อให้ผู้ซื้อมั่นใจและติดต่อคุณได้ง่าย</p>
 
-  <input id="title" placeholder="ชื่อสินค้า">
-  <input id="price" placeholder="ราคา">
-  <input id="category" placeholder="หมวดหมู่">
-  <input id="province" placeholder="จังหวัด">
-  <textarea id="description" placeholder="รายละเอียด"></textarea>
-  <input id="image_url" placeholder="ลิงก์รูปสินค้า">
-  <input id="phone" placeholder="เบอร์โทร">
-  <input id="line_id" placeholder="LINE ID">
+  <label>ชื่อสินค้า</label>
+  <input id="title" placeholder="เช่น iPhone 13, บ้านเดี่ยว, พระเครื่อง">
 
-  <button id="sellBtn">ลงขาย</button>
+  <label>ราคา</label>
+  <input id="price" type="number" placeholder="เช่น 15000">
+
+  <label>หมวดหมู่</label>
+  <select id="category">
+    <option value="มือถือ">มือถือ</option>
+    <option value="บ้าน">บ้าน</option>
+    <option value="รถ">รถ</option>
+    <option value="พระเครื่อง">พระเครื่อง</option>
+    <option value="ของมีค่า">ของมีค่า</option>
+    <option value="ทั่วไป">ทั่วไป</option>
+  </select>
+
+  <label>จังหวัด</label>
+  <input id="province" placeholder="เช่น กรุงเทพ, สงขลา, เชียงใหม่">
+
+  <label>รายละเอียดสินค้า</label>
+  <textarea id="description" placeholder="อธิบายสภาพสินค้า จุดเด่น เงื่อนไขการขาย"></textarea>
+
+  <label>รูปสินค้า</label>
+  <input type="file" id="image_file" accept="image/*">
+  <img id="previewImage" class="preview" alt="preview">
+
+  <label>เบอร์โทร</label>
+  <input id="phone" placeholder="เช่น 0642569745">
+
+  <label>LINE ID</label>
+  <input id="line_id" placeholder="เช่น yourlineid">
+
+  <button id="sellBtn">ลงขายสินค้า</button>
 </div>
 
 <script type="module">
@@ -75,36 +174,102 @@ const supabase = createClient(
   'sb_publishable_YE1L_O6G2rzKFcOUlTfLGQ_eHfzAISh'
 )
 
-document.getElementById('sellBtn').addEventListener('click', async () => {
+const imageInput = document.getElementById('image_file')
+const previewImage = document.getElementById('previewImage')
+const sellBtn = document.getElementById('sellBtn')
+
+imageInput.addEventListener('change', () => {
+  const file = imageInput.files[0]
+  if (!file) return
+
+  previewImage.src = URL.createObjectURL(file)
+  previewImage.style.display = 'block'
+})
+
+sellBtn.addEventListener('click', async () => {
+  sellBtn.disabled = true
+  sellBtn.textContent = 'กำลังลงขาย...'
+
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
-    alert("กรุณา login ก่อน")
-    window.location.href = "/login.html"
+    alert('กรุณา login ก่อน')
+    window.location.href = '/login.html'
     return
+  }
+
+  const title = document.getElementById('title').value.trim()
+  const price = document.getElementById('price').value
+  const category = document.getElementById('category').value
+  const province = document.getElementById('province').value.trim()
+  const description = document.getElementById('description').value.trim()
+  const phone = document.getElementById('phone').value.trim()
+  const line_id = document.getElementById('line_id').value.trim()
+
+  if (!title || !price || !province) {
+    alert('กรุณากรอกชื่อสินค้า ราคา และจังหวัด')
+    sellBtn.disabled = false
+    sellBtn.textContent = 'ลงขายสินค้า'
+    return
+  }
+
+  let imageUrl = ''
+
+  const file = imageInput.files[0]
+
+  if (file) {
+    const fileExt = file.name.split('.').pop()
+    const fileName = `${user.id}/${Date.now()}.${fileExt}`
+
+    const { error: uploadError } = await supabase
+      .storage
+      .from('products')
+      .upload(fileName, file, {
+        cacheControl: '3600',
+        upsert: false
+      })
+
+    if (uploadError) {
+      console.error('UPLOAD ERROR:', uploadError)
+      alert('อัปโหลดรูปไม่สำเร็จ: ' + uploadError.message)
+      sellBtn.disabled = false
+      sellBtn.textContent = 'ลงขายสินค้า'
+      return
+    }
+
+    const { data: publicUrlData } = supabase
+      .storage
+      .from('products')
+      .getPublicUrl(fileName)
+
+    imageUrl = publicUrlData.publicUrl
   }
 
   const { error } = await supabase.from('products').insert([
     {
       user_id: user.id,
-      title: document.getElementById('title').value,
-      price: document.getElementById('price').value,
-      category: document.getElementById('category').value,
-      province: document.getElementById('province').value,
-      description: document.getElementById('description').value,
-      image_url: document.getElementById('image_url').value,
-      phone: document.getElementById('phone').value,
-      line_id: document.getElementById('line_id').value,
+      title,
+      price,
+      category,
+      province,
+      description,
+      image_url: imageUrl,
+      phone,
+      line_id,
       status: 'active'
     }
   ])
 
   if (error) {
-    alert(error.message)
-  } else {
-    alert("ลงขายสำเร็จ!")
-    window.location.href = "/"
+    console.error('INSERT ERROR:', error)
+    alert('ลงขายไม่สำเร็จ: ' + error.message)
+    sellBtn.disabled = false
+    sellBtn.textContent = 'ลงขายสินค้า'
+    return
   }
+
+  alert('ลงขายสำเร็จ!')
+  window.location.href = '/'
 })
 </script>
 
