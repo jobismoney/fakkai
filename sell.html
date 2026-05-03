@@ -13,7 +13,7 @@
 <input id="category" placeholder="หมวด"><br><br>
 <input id="province" placeholder="จังหวัด"><br><br>
 <textarea id="description" placeholder="รายละเอียด"></textarea><br><br>
-  <input id="image_url" placeholder="ลิงก์รูปสินค้า"><br><br>
+<input id="image_url" placeholder="ลิงก์รูปสินค้า"><br><br>
 <input id="phone" placeholder="เบอร์โทร"><br><br>
 <input id="line_id" placeholder="LINE ID"><br><br>
 
@@ -44,6 +44,7 @@ document.getElementById('sellBtn').addEventListener('click', async () => {
       category: document.getElementById('category').value,
       province: document.getElementById('province').value,
       description: document.getElementById('description').value,
+      image_url: document.getElementById('image_url').value,
       phone: document.getElementById('phone').value,
       line_id: document.getElementById('line_id').value,
       status: 'active'
