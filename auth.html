@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>เข้าสู่ระบบ | fakkai.com</title>
+  <link rel="stylesheet" href="./assets/css/style.css" />
+</head>
+<body>
+
+<div class="auth-page">
+  <div class="auth-card">
+    <h1>fakkai.com</h1>
+    <p>สมัครสมาชิกหรือเข้าสู่ระบบ เพื่อเริ่มลงขายอย่างปลอดภัย</p>
+
+    <div class="auth-tabs">
+      <button id="showLogin" class="active">เข้าสู่ระบบ</button>
+      <button id="showRegister">สมัครสมาชิก</button>
+    </div>
+
+    <form id="loginForm" class="auth-form">
+      <input type="email" id="loginEmail" placeholder="อีเมล" required />
+      <input type="password" id="loginPassword" placeholder="รหัสผ่าน" required />
+      <button type="submit" class="btn-primary full">เข้าสู่ระบบ</button>
+    </form>
+
+    <form id="registerForm" class="auth-form hidden">
+      <input type="email" id="registerEmail" placeholder="อีเมล" required />
+      <input type="password" id="registerPassword" placeholder="รหัสผ่าน อย่างน้อย 8 ตัว" required />
+      <button type="submit" class="btn-primary full">สมัครสมาชิก</button>
+    </form>
+
+    <a href="./index.html" class="back-home">← กลับหน้าแรก</a>
+  </div>
+</div>
+
+<script type="module" src="./assets/js/auth.js"></script>
+</body>
+</html>
