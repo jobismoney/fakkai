@@ -21,14 +21,18 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 async function signUp(email, password) {
   const { data, error } = await supabase.auth.signUp({
-    email: email,
-    password: password
-  })
+    email,
+    password
+  });
 
   if (error) {
-    alert(error.message)
-  } else {
-    alert("สมัครสำเร็จ! เช็คอีเมล")
+    console.error("Signup error:", error);
+    alert("สมัครไม่สำเร็จ: " + error.message);
+    return;
   }
+
+  console.log("Signup success:", data);
+  alert("สมัครสำเร็จ! เช็คอีเมล");
 }
+
 window.signUp = signUp;
