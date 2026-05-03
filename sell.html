@@ -6,8 +6,6 @@
 </head>
 <body>
 
-
-  
 <h2>ลงขายสินค้า</h2>
 
 <input id="title" placeholder="ชื่อสินค้า"><br><br>
@@ -18,55 +16,8 @@
 <input id="phone" placeholder="เบอร์โทร"><br><br>
 <input id="line_id" placeholder="LINE ID"><br><br>
 
-<button onclick="createProduct()">ลงขาย</button>
+<button id="sellBtn">ลงขาย</button>
 
-<script type="module">
-  const { data: { user } } = await supabase.auth.getUser()
-if (!user) { alert("ยังไม่ได้ login") window.location.href = "/login.html" }
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
-
-const supabase = createClient(
-  'https://ehuegkxeywnsthgdprch.supabase.co',
-  'sb_publishable_YE1L_O6G2rzKFcOUlTfLGQ_eHfzAISh'
-)
-
-const { data: { user } } = await supabase.auth.getUser()
-
-if (!user) {
-  alert("ยังไม่ได้ login")
-  window.location.href = "/login.html"
-}
-
-
-window.createProduct = async () => {
-  const user = (await supabase.auth.getUser()).data.user
-
-  if (!user) {
-    alert("กรุณา login ก่อน")
-    return
-  }
-
-  const { error } = await supabase.from('products').insert([
-    {
-      user_id: user.id,
-      title: document.getElementById('title').value,
-      price: document.getElementById('price').value,
-      category: document.getElementById('category').value,
-      province: document.getElementById('province').value,
-      description: document.getElementById('description').value
-    }
-  ])
-
-  if (error) {
-    alert(error.message)
-  } else {
-    alert("ลงขายสำเร็จ!")
-  }
-}
-</script>
-
-</body>
-</html>
 <script type="module">
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
@@ -75,13 +26,12 @@ const supabase = createClient(
   'sb_publishable_YE1L_O6G2rzKFcOUlTfLGQ_eHfzAISh'
 )
 
-window.addProduct = async () => {
-
+document.getElementById('sellBtn').addEventListener('click', async () => {
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
-    alert("กรุณา login ก่อน")
-    window.location.href = "/login.html"
+    alert('กรุณา login ก่อน')
+    window.location.href = '/login.html'
     return
   }
 
@@ -100,10 +50,13 @@ window.addProduct = async () => {
   ])
 
   if (error) {
-    alert("Error: " + error.message)
+    alert('Error: ' + error.message)
   } else {
-    alert("ลงขายสำเร็จ!")
-    location.reload()
+    alert('ลงขายสำเร็จ!')
+    window.location.href = '/'
   }
-}
+})
 </script>
+
+</body>
+</html>
