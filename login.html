@@ -2,16 +2,67 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>เข้าสู่ระบบ</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>เข้าสู่ระบบ | fakkai</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Prompt', sans-serif;
+  background: linear-gradient(135deg, #145bdc, #4f8cff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.card {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  width: 320px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  background: #145bdc;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #0f4ac4;
+}
+</style>
 </head>
+
 <body>
 
-<h2>เข้าสู่ระบบ</h2>
+<div class="card">
+  <h2>เข้าสู่ระบบ</h2>
 
-<input id="email" placeholder="อีเมล"><br><br>
-<input id="password" type="password" placeholder="รหัสผ่าน"><br><br>
+  <input id="email" placeholder="อีเมล">
+  <input id="password" type="password" placeholder="รหัสผ่าน">
 
-<button onclick="login()">เข้าสู่ระบบ</button>
+  <button onclick="login()">เข้าสู่ระบบ</button>
+</div>
 
 <script type="module">
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
@@ -33,7 +84,6 @@ window.login = async () => {
   if (error) {
     alert(error.message)
   } else {
-    alert("เข้าสู่ระบบสำเร็จ")
     window.location.href = "/"
   }
 }
