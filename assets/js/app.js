@@ -1,3 +1,10 @@
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+// ใส่ของคุณตรงนี้
+const supabaseUrl = 'https://ehuegkxeywnsthgdprch.supabase.co'
+const supabaseKey = 'ใส่ sb_publishable_ ของคุณตรงนี้'
+
+const supabase = createClient(supabaseUrl, supabaseKey)
 document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.querySelector(".search-box input");
   const searchButton = document.querySelector(".search-box button");
@@ -13,3 +20,15 @@ document.addEventListener("DOMContentLoaded", () => {
     alert(`กำลังค้นหา: ${keyword}`);
   });
 });
+async function signUp(email, password) {
+  const { data, error } = await supabase.auth.signUp({
+    email: email,
+    password: password
+  })
+
+  if (error) {
+    alert(error.message)
+  } else {
+    alert("สมัครสำเร็จ! เช็คอีเมล")
+  }
+}
