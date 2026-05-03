@@ -6,9 +6,15 @@
 <title>fakkai.com | ตลาดกลางฝากขายปลอดภัย</title>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: 'Prompt', sans-serif;
   background: #f4f7fb;
   color: #10213f;
 }
@@ -27,26 +33,39 @@ header {
 
 .logo {
   font-size: 30px;
-  font-weight: bold;
+  font-weight: 800;
   color: #145bdc;
+  line-height: 1;
+}
+
+.tagline {
+  font-size: 13px;
+  color: #64748b;
+  margin-top: 6px;
+}
+
+nav {
+  display: flex;
+  gap: 18px;
+  align-items: center;
 }
 
 nav a {
-  margin-left: 18px;
   text-decoration: none;
   color: #10213f;
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .btn {
   background: #145bdc;
   color: white !important;
-  padding: 12px 20px;
+  padding: 12px 22px;
   border-radius: 12px;
+  box-shadow: 0 12px 24px rgba(20, 91, 220, 0.25);
 }
 
 .hero {
-  padding: 60px 7%;
+  padding: 70px 7%;
   background: linear-gradient(180deg, #ffffff, #eaf3ff);
 }
 
@@ -63,7 +82,7 @@ nav a {
 .hero p {
   font-size: 18px;
   color: #52657f;
-  max-width: 620px;
+  max-width: 680px;
   line-height: 1.8;
 }
 
@@ -78,18 +97,20 @@ nav a {
 
 .search-area input,
 .search-area select {
-  padding: 14px;
+  padding: 15px;
   border: 1px solid #cbd7ea;
   border-radius: 12px;
   font-size: 15px;
+  font-family: inherit;
 }
 
 .section {
-  padding: 34px 7%;
+  padding: 40px 7%;
 }
 
 .section h2 {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+  font-size: 26px;
 }
 
 .grid {
@@ -104,6 +125,11 @@ nav a {
   overflow: hidden;
   box-shadow: 0 14px 35px rgba(15, 35, 75, 0.08);
   border: 1px solid #e2e8f0;
+  transition: 0.25s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
 }
 
 .image-box {
@@ -112,7 +138,7 @@ nav a {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 54px;
+  font-size: 58px;
 }
 
 .card-body {
@@ -126,19 +152,19 @@ nav a {
   padding: 6px 10px;
   border-radius: 999px;
   font-size: 12px;
-  font-weight: bold;
+  font-weight: 700;
   margin-bottom: 10px;
 }
 
 .card h3 {
-  margin: 6px 0 10px;
+  margin: 8px 0 10px;
   font-size: 18px;
 }
 
 .price {
   color: #0b48bd;
   font-size: 22px;
-  font-weight: bold;
+  font-weight: 800;
   margin: 10px 0;
 }
 
@@ -167,7 +193,7 @@ nav a {
   text-decoration: none;
   padding: 11px;
   border-radius: 12px;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 .call {
@@ -186,6 +212,7 @@ nav a {
   border-radius: 18px;
   text-align: center;
   color: #64748b;
+  grid-column: 1 / -1;
 }
 
 footer {
@@ -195,11 +222,20 @@ footer {
   color: white;
 }
 
+footer p {
+  color: #cbd5e1;
+}
+
 @media (max-width: 768px) {
   header {
     flex-direction: column;
     gap: 14px;
     align-items: flex-start;
+  }
+
+  nav {
+    width: 100%;
+    justify-content: space-between;
   }
 
   .hero h1 {
@@ -218,7 +254,7 @@ footer {
 <header>
   <div>
     <div class="logo">fakkai.com</div>
-    <small>ฝากขายปลอดภัย ซื้อขายมั่นใจ</small>
+    <div class="tagline">ฝากขายปลอดภัย ซื้อขายมั่นใจ</div>
   </div>
 
   <nav>
@@ -236,7 +272,7 @@ footer {
 
 <div class="search-area">
   <input id="searchInput" placeholder="ค้นหาสินค้า เช่น iPhone, บ้าน, รถ">
-  
+
   <select id="categoryFilter">
     <option value="">ทุกหมวดหมู่</option>
     <option value="มือถือ">มือถือ</option>
@@ -244,14 +280,15 @@ footer {
     <option value="รถ">รถ</option>
     <option value="พระเครื่อง">พระเครื่อง</option>
     <option value="ของมีค่า">ของมีค่า</option>
+    <option value="ทั่วไป">ทั่วไป</option>
   </select>
 
   <select id="provinceFilter">
     <option value="">ทุกจังหวัด</option>
     <option value="กรุงเทพ">กรุงเทพ</option>
+    <option value="สงขลา">สงขลา</option>
     <option value="นนทบุรี">นนทบุรี</option>
     <option value="ชลบุรี">ชลบุรี</option>
-    <option value="สงขลา">สงขลา</option>
     <option value="เชียงใหม่">เชียงใหม่</option>
   </select>
 </div>
@@ -282,10 +319,15 @@ const categoryFilter = document.getElementById('categoryFilter')
 const provinceFilter = document.getElementById('provinceFilter')
 
 async function loadProducts() {
+  productsEl.innerHTML = `<div class="empty">กำลังโหลดสินค้า...</div>`
+
   const { data, error } = await supabase
     .from('products')
     .select('*')
     .order('created_at', { ascending: false })
+
+  console.log('PRODUCTS DATA:', data)
+  console.log('PRODUCTS ERROR:', error)
 
   if (error) {
     productsEl.innerHTML = `<div class="empty">โหลดสินค้าไม่ได้: ${error.message}</div>`
@@ -311,25 +353,30 @@ function renderProducts(items) {
     productsEl.innerHTML += `
       <div class="card">
         <div class="image-box">${getIcon(item.category)}</div>
+
         <div class="card-body">
           <span class="badge">ยืนยันผู้ขายแล้ว</span>
+
           <h3>${item.title || '-'}</h3>
+
           <div class="price">฿${Number(item.price || 0).toLocaleString()}</div>
+
           <div class="meta">หมวด: ${item.category || '-'}</div>
           <div class="meta">📍 ${item.province || '-'}</div>
+
           <div class="desc">${item.description || ''}</div>
 
           <div class="contact">
             ${
               phone
               ? `<a class="call" href="tel:${phone}">โทร</a>`
-              : `<a class="call" href="#">ไม่มีเบอร์</a>`
+              : `<a class="call" href="javascript:void(0)">ไม่มีเบอร์</a>`
             }
 
             ${
               lineId
               ? `<a class="line" target="_blank" href="https://line.me/ti/p/~${lineId}">LINE</a>`
-              : `<a class="line" href="#">ไม่มี LINE</a>`
+              : `<a class="line" href="javascript:void(0)">ไม่มี LINE</a>`
             }
           </div>
         </div>
@@ -344,21 +391,27 @@ function getIcon(category) {
   if (category === 'รถ') return '🚗'
   if (category === 'พระเครื่อง') return '🧿'
   if (category === 'ของมีค่า') return '💎'
+  if (category === 'ทั่วไป') return '📦'
   return '📦'
 }
 
 function applyFilters() {
-  const keyword = searchInput.value.toLowerCase()
+  const keyword = searchInput.value.toLowerCase().trim()
   const category = categoryFilter.value
   const province = provinceFilter.value
 
   const filtered = allProducts.filter(item => {
-    const matchKeyword =
-      (item.title || '').toLowerCase().includes(keyword) ||
-      (item.description || '').toLowerCase().includes(keyword)
+    const title = (item.title || '').toLowerCase()
+    const desc = (item.description || '').toLowerCase()
+    const itemCategory = item.category || ''
+    const itemProvince = item.province || ''
 
-    const matchCategory = category ? item.category === category : true
-    const matchProvince = province ? item.province === province : true
+    const matchKeyword =
+      title.includes(keyword) ||
+      desc.includes(keyword)
+
+    const matchCategory = category ? itemCategory === category : true
+    const matchProvince = province ? itemProvince === province : true
 
     return matchKeyword && matchCategory && matchProvince
   })
