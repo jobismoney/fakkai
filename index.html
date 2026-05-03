@@ -1,147 +1,50 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>fakkai.com | ฝากขายปลอดภัย ซื้อขายมั่นใจ</title>
-
-  <link rel="stylesheet" href="./assets/css/style.css" />
+<meta charset="UTF-8">
+<title>Fakkai Marketplace</title>
+<style>
+body { font-family: sans-serif; padding:20px; }
+.grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(250px,1fr)); gap:15px; }
+.card { border:1px solid #ddd; padding:15px; border-radius:10px; }
+</style>
 </head>
 <body>
 
-<header class="navbar">
-  <div class="logo">
-    <h1>fakkai.com</h1>
-    <span>ฝากขายปลอดภัย ซื้อขายมั่นใจ</span>
-  </div>
+<h2>สินค้าในระบบ</h2>
 
-  <div class="search-box">
-    <input type="text" placeholder="ค้นหาสินค้า เช่น บ้าน, รถ, พระเครื่อง..." />
-    <button>🔍</button>
-  </div>
+<div class="grid" id="products"></div>
 
-  <nav>
-    <a href="#">ช่วยเหลือ</a>
-    <a href="#">รายการโปรด</a>
-    <a href="./auth.html">เข้าสู่ระบบ</a>
-    <button class="btn-primary">ลงขายฟรี</button>
-  </nav>
-</header>
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
-<section class="hero">
-  <div class="hero-text">
-    <h2>ฝากขายปลอดภัย<br><span>ซื้อขายมั่นใจ</span></h2>
-    <p>
-      ตลาดกลางฝากขาย ที่ช่วยลดความเสี่ยงการโกง
-      ด้วยระบบตรวจสอบผู้ขาย และรีวิวจากผู้ซื้อจริง
-    </p>
+const supabase = createClient(
+  'https://ehuegkxeywnsthgdprch.supabase.co',
+  'sb_publishable_YE1L_O6G2rzKFcOUlTfLGQ_eHfzAISh'
+)
 
-    <div class="hero-buttons">
-      <button class="btn-primary">ลงขายฟรี</button>
-      <button class="btn-outline">เรียนรู้ระบบความปลอดภัย</button>
-    </div>
+const { data, error } = await supabase
+  .from('products')
+  .select('*')
+  .order('created_at', { ascending: false })
 
-    <div class="stats">
-      <div>
-        <strong>125,680</strong>
-        <span>สมาชิกทั้งหมด</span>
+const container = document.getElementById('products')
+
+if (error) {
+  container.innerHTML = "โหลดข้อมูลไม่ได้"
+} else {
+  data.forEach(item => {
+    container.innerHTML += `
+      <div class="card">
+        <h3>${item.title}</h3>
+        <p>💰 ${item.price} บาท</p>
+        <p>📍 ${item.province}</p>
+        <p>${item.description}</p>
       </div>
-      <div>
-        <strong>98,352</strong>
-        <span>ประกาศทั้งหมด</span>
-      </div>
-      <div>
-        <strong>45,263</strong>
-        <span>รีวิวจากผู้ซื้อ</span>
-      </div>
-    </div>
-  </div>
+    `
+  })
+}
+</script>
 
-  <div class="hero-image">
-    <div class="shield">✓</div>
-    <div class="verify-card">
-      <strong>ยืนยันตัวตนแล้ว</strong>
-      <span>ปลอดภัย มั่นใจได้</span>
-    </div>
-    <div class="safe-card">
-      🔒 ระบบชำระเงินปลอดภัย
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="section-header">
-    <h3>หมวดหมู่ยอดนิยม</h3>
-    <a href="#">ดูทั้งหมด</a>
-  </div>
-
-  <div class="category-grid">
-    <div class="category-card">🏠 <strong>ฝากขายบ้าน</strong><span>12,456 รายการ</span></div>
-    <div class="category-card">🚗 <strong>ฝากขายรถ</strong><span>24,568 รายการ</span></div>
-    <div class="category-card">🧿 <strong>ฝากขายพระเครื่อง</strong><span>18,752 รายการ</span></div>
-    <div class="category-card">💍 <strong>ฝากขายของมีค่า</strong><span>8,752 รายการ</span></div>
-    <div class="category-card">📱 <strong>ฝากขายทั่วไป</strong><span>33,824 รายการ</span></div>
-    <div class="category-card">🤝 <strong>บริการฝากขาย</strong><span>2,145 รายการ</span></div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="section-header">
-    <div>
-      <h3>ประกาศแนะนำ</h3>
-      <p>รายการประกาศที่น่าสนใจจากผู้ขายที่ได้รับการยืนยันแล้ว</p>
-    </div>
-    <a href="#">ดูทั้งหมด</a>
-  </div>
-
-  <div class="product-grid">
-    <div class="product-card">
-      <div class="product-img house"></div>
-      <div class="product-info">
-        <span class="badge">ยืนยันตัวตนแล้ว</span>
-        <h4>บ้านเดี่ยว 2 ชั้น หน้าบ้านบางกอก</h4>
-        <p>📍 นนทบุรี</p>
-        <strong>฿4,590,000</strong>
-      </div>
-    </div>
-
-    <div class="product-card">
-      <div class="product-img car"></div>
-      <div class="product-info">
-        <span class="badge">ยืนยันตัวตนแล้ว</span>
-        <h4>Toyota Camry 2.5 Hybrid ปี 2020</h4>
-        <p>📍 กรุงเทพมหานคร</p>
-        <strong>฿789,000</strong>
-      </div>
-    </div>
-
-    <div class="product-card">
-      <div class="product-img amulet"></div>
-      <div class="product-info">
-        <span class="badge">ยืนยันตัวตนแล้ว</span>
-        <h4>พระสมเด็จวัดระฆัง พิมพ์ใหญ่</h4>
-        <p>📍 กรุงเทพมหานคร</p>
-        <strong>฿2,450,000</strong>
-      </div>
-    </div>
-
-    <div class="product-card">
-      <div class="product-img gold"></div>
-      <div class="product-info">
-        <span class="badge">ยืนยันตัวตนแล้ว</span>
-        <h4>สร้อยคอทองคำ 96.5% หนัก 2 บาท</h4>
-        <p>📍 กรุงเทพมหานคร</p>
-        <strong>฿32,900</strong>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <strong>fakkai.com</strong>
-  <p>ตลาดกลางฝากขายปลอดภัย ซื้อขายมั่นใจ ลดความเสี่ยงการโกง</p>
-</footer>
-
-<script type="module" src="./assets/js/app.js"></script>
 </body>
 </html>
