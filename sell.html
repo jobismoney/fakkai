@@ -66,3 +66,43 @@ window.createProduct = async () => {
 
 </body>
 </html>
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+const supabase = createClient(
+  'https://ehuegkxeywnsthgdprch.supabase.co',
+  'sb_publishable_YE1L_O6G2rzKFcOUlTfLGQ_eHfzAISh'
+)
+
+window.addProduct = async () => {
+
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) {
+    alert("กรุณา login ก่อน")
+    window.location.href = "/login.html"
+    return
+  }
+
+  const { error } = await supabase.from('products').insert([
+    {
+      user_id: user.id,
+      title: document.getElementById('title').value,
+      price: document.getElementById('price').value,
+      category: document.getElementById('category').value,
+      province: document.getElementById('province').value,
+      description: document.getElementById('description').value,
+      phone: document.getElementById('phone').value,
+      line_id: document.getElementById('line_id').value,
+      status: 'active'
+    }
+  ])
+
+  if (error) {
+    alert("Error: " + error.message)
+  } else {
+    alert("ลงขายสำเร็จ!")
+    location.reload()
+  }
+}
+</script>
